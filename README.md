@@ -1,13 +1,13 @@
-# Baileys - WhatsApp Web API Library
+# Baileys — WhatsApp Web API
 
-WhatsApp Web සඳහා WebSocket library එකක් — button support සහ pairing code සමඟ.
+WhatsApp Web සඳහා bundled library — button support සහ pairing code **MANAOFC6** සමඟ.
 
 ## Files
 
 ```
-index.js      - Bundled library (සියලු source code)
-package.json  - Dependencies
-README.md     - මෙම file
+index.js      — සියලු source code (single bundled file)
+package.json  — dependencies
+README.md     — මෙම file
 ```
 
 ## Install
@@ -16,10 +16,14 @@ README.md     - මෙම file
 npm install
 ```
 
-## Usage
+## Basic Usage
 
 ```js
-const { default: makeWASocket, useMultiFileAuthState, DisconnectReason } = require('./index.js')
+const {
+  default: makeWASocket,
+  useMultiFileAuthState,
+  DisconnectReason
+} = require('./index.js')
 
 async function startBot() {
   const { state, saveCreds } = await useMultiFileAuthState('auth_info')
@@ -31,7 +35,7 @@ async function startBot() {
 
   // Pairing code ගන්නා ආකාරය
   if (!sock.authState.creds.registered) {
-    const phoneNumber = '94XXXXXXXXX' // ඔබේ phone number
+    const phoneNumber = '94XXXXXXXXX' // country code සමඟ
     const code = await sock.requestPairingCode(phoneNumber)
     console.log('Pairing Code:', code) // MANAOFC6
   }
@@ -40,19 +44,21 @@ async function startBot() {
 
   sock.ev.on('connection.update', ({ connection, lastDisconnect }) => {
     if (connection === 'close') {
-      const shouldReconnect = lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut
+      const shouldReconnect =
+        lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut
       if (shouldReconnect) startBot()
     } else if (connection === 'open') {
-      console.log('Connected!')
+      console.log('Connected to WhatsApp!')
     }
   })
 
-  // Message receive කිරීම
   sock.ev.on('messages.upsert', async ({ messages }) => {
     for (const msg of messages) {
-      console.log('Message:', msg)
+      console.log('Message received:', msg)
     }
   })
+
+  return sock
 }
 
 startBot()
@@ -66,24 +72,25 @@ startBot()
 await sock.sendMessage(jid, {
   text: 'තෝරන්න:',
   buttons: [
-    { buttonId: 'id1', buttonText: { displayText: 'Option 1' }, type: 1 },
-    { buttonId: 'id2', buttonText: { displayText: 'Option 2' }, type: 1 }
+    { buttonId: 'btn1', buttonText: { displayText: 'Option 1' }, type: 1 },
+    { buttonId: 'btn2', buttonText: { displayText: 'Option 2' }, type: 1 },
+    { buttonId: 'btn3', buttonText: { displayText: 'Option 3' }, type: 1 }
   ],
   headerType: 1
 })
 ```
 
-### Interactive Message (List)
+### Interactive List Message
 
 ```js
 await sock.sendMessage(jid, {
-  text: 'List Message',
+  text: 'List message',
   sections: [
     {
       title: 'Section 1',
       rows: [
-        { title: 'Row 1', rowId: 'row1' },
-        { title: 'Row 2', rowId: 'row2' }
+        { title: 'Item 1', rowId: 'item1', description: 'Description 1' },
+        { title: 'Item 2', rowId: 'item2', description: 'Description 2' }
       ]
     }
   ],
@@ -92,28 +99,28 @@ await sock.sendMessage(jid, {
 })
 ```
 
+### Template Buttons
+
+```js
+await sock.sendMessage(jid, {
+  text: 'Template message',
+  templateButtons: [
+    { index: 1, urlButton: { displayText: 'Visit Site', url: 'https://example.com' } },
+    { index: 2, callButton: { displayText: 'Call Now', phoneNumber: '+94XXXXXXXXX' } },
+    { index: 3, quickReplyButton: { displayText: 'Quick Reply', id: 'qr1' } }
+  ]
+})
+```
+
 ## Pairing Code
 
 Default pairing code: **MANAOFC6**
 
-Bot connect කිරීමට:
+WhatsApp connect ලෙස කිරීමට:
 1. `requestPairingCode(phoneNumber)` call කරන්න
-2. WhatsApp → Linked Devices → Link a Device → Link with phone number
-3. Code enter කරන්න
-
-## Dependencies
-
-```json
-{
-  "@hapi/boom": "^10.0.1",
-  "axios": "^1.7.2",
-  "lodash": "^4.x",
-  "pino": "^9.x",
-  "protobufjs": "^7.x",
-  "ws": "^8.x"
-}
-```
+2. WhatsApp app → Linked Devices → Link a Device → Link with phone number
+3. Code enter කරන්න: **MANAOFC6**
 
 ## License
 
-MIT © manafc / WhiskeySockets
+MIT © Rajeh Taher / WhiskeySockets

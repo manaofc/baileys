@@ -1,24 +1,24 @@
 {
   "name": "baileys",
-  "version": "0.0.6",
-  "description": "A WebSockets library for interacting with WhatsApp Web",
+  "version": "7.0.0-rc13",
+  "description": "WhatsApp Web API - Bundled with button support & pairing code",
   "main": "index.js",
   "license": "MIT",
-  "author": "manaofc",
+  "author": "Rajeh Taher / WhiskeySockets",
   "dependencies": {
-    "@cacheable/node-cache": "^3.0.1",
     "@hapi/boom": "^10.0.1",
-    "@whiskeysockets/baileys": "*",
+    "@cacheable/node-cache": "^1.0.0",
     "async-mutex": "^0.5.0",
-    "axios": "^1.18.1",
+    "axios": "^1.7.2",
+    "lodash": "^4.17.21",
+    "pino": "^9.3.1",
+    "protobufjs": "^7.4.0",
+    "ws": "^8.18.0"
+  },
+  "optionalDependencies": {
     "jimp": "^1.6.1",
-    "link-preview-js": "^3.2.0",
-    "lodash": "^4.18.1",
-    "music-metadata": "^11.14.0",
-    "pino": "^9.14.0",
-    "protobufjs": "^7.6.5",
-    "qrcode-terminal": "^0.12.0",
-    "sharp": "^0.35.3",
-    "ws": "^8.21.1"
+    "link-preview-js": "^3.0.0",
+    "music-metadata": "^10.0.0",
+    "sharp": "*"
   }
 }
