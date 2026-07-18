@@ -124614,7 +124614,21 @@ var makeMessagesSocket = (config) => {
           content: tcTokenBuffer
         });
       }
-      if (additionalNodes && additionalNodes.length > 0) {
+      const _normalizedMsg = normalizeMessageContent(message);
+      const _buttonType = _normalizedMsg ? getButtonType(_normalizedMsg) : void 0;
+      let _didPushAdditional = false;
+      if (!isNewsletter && _buttonType && !isStatus) {
+        const _bizContent = getAdditionalNode(_buttonType);
+        const _filteredNode = getBinaryNodeFilter(additionalNodes);
+        if (_filteredNode) {
+          _didPushAdditional = true;
+          stanza.content.push(...additionalNodes);
+        } else {
+          stanza.content.push(..._bizContent);
+        }
+        logger.debug({ jid }, "adding business node");
+      }
+      if (!_didPushAdditional && additionalNodes && additionalNodes.length > 0) {
         ;
         stanza.content.push(...additionalNodes);
       }
@@ -124708,6 +124722,97 @@ var makeMessagesSocket = (config) => {
       return "url";
     }
     return "";
+  };
+  const getBinaryNodeFilter = (node) => {
+    if (!Array.isArray(node)) return false;
+    return node.some(
+      (item) =>
+        ["native_flow"].includes(item?.content?.[0]?.content?.[0]?.tag) ||
+        ["interactive", "buttons", "list"].includes(item?.content?.[0]?.tag) ||
+        ["hsm", "biz"].includes(item?.tag) ||
+        (["bot"].includes(item?.tag) && item?.attrs?.biz_bot === "1")
+    );
+  };
+  const getAdditionalNode = (name) => {
+    if (name) name = name.toLowerCase();
+    const ts = unixTimestampSeconds() - 77980457;
+    const order_response_name = {
+      review_and_pay: "order_details",
+      review_order: "order_status",
+      payment_info: "payment_info",
+      payment_status: "payment_status",
+      payment_method: "payment_method"
+    };
+    const flow_name = {
+      cta_catalog: "cta_catalog",
+      mpm: "mpm",
+      call_request: "call_permission_request",
+      view_catalog: "automated_greeting_message_view_catalog",
+      wa_pay_detail: "wa_payment_transaction_details",
+      send_location: "send_location"
+    };
+    if (order_response_name[name]) {
+      return [{ tag: "biz", attrs: { native_flow_name: order_response_name[name] }, content: [] }];
+    } else if (flow_name[name] || name === "interactive" || name === "buttons") {
+      return [{
+        tag: "biz",
+        attrs: { actual_actors: "2", host_storage: "2", privacy_mode_ts: `${ts}` },
+        content: [
+          { tag: "engagement", attrs: { customer_service_state: "open", conversation_state: "open" } },
+          {
+            tag: "interactive",
+            attrs: { type: "native_flow", v: "1" },
+            content: [{ tag: "native_flow", attrs: { v: "9", name: flow_name[name] ?? "mixed" }, content: [] }]
+          }
+        ]
+      }];
+    } else if (name === "list") {
+      return [{
+        tag: "biz",
+        attrs: { actual_actors: "2", host_storage: "2", privacy_mode_ts: `${ts}` },
+        content: [
+          { tag: "engagement", attrs: { customer_service_state: "open", conversation_state: "open" } },
+          { tag: "list", attrs: { type: "product_list", v: "2" } }
+        ]
+      }];
+    } else {
+      return [{
+        tag: "biz",
+        attrs: { actual_actors: "2", host_storage: "2", privacy_mode_ts: `${ts}` },
+        content: [{ tag: "engagement", attrs: { customer_service_state: "open", conversation_state: "open" } }]
+      }];
+    }
+  };
+  const getButtonType = (message) => {
+    if (message.listMessage) {
+      return "list";
+    } else if (message.buttonsMessage) {
+      return "buttons";
+    } else if (message.interactiveMessage?.nativeFlowMessage?.buttons?.[0]?.name === "review_and_pay") {
+      return "review_and_pay";
+    } else if (message.interactiveMessage?.nativeFlowMessage?.buttons?.[0]?.name === "review_order") {
+      return "review_order";
+    } else if (message.interactiveMessage?.nativeFlowMessage?.buttons?.[0]?.name === "payment_info") {
+      return "payment_info";
+    } else if (message.interactiveMessage?.nativeFlowMessage?.buttons?.[0]?.name === "payment_status") {
+      return "payment_status";
+    } else if (message.interactiveMessage?.nativeFlowMessage?.buttons?.[0]?.name === "payment_method") {
+      return "payment_method";
+    } else if (message.interactiveMessage?.nativeFlowMessage?.buttons?.[0]?.name === "cta_catalog") {
+      return "cta_catalog";
+    } else if (message.interactiveMessage?.nativeFlowMessage?.buttons?.[0]?.name === "mpm") {
+      return "mpm";
+    } else if (message.interactiveMessage?.nativeFlowMessage?.buttons?.[0]?.name === "call_request") {
+      return "call_request";
+    } else if (message.interactiveMessage?.nativeFlowMessage?.buttons?.[0]?.name === "view_catalog") {
+      return "view_catalog";
+    } else if (message.interactiveMessage?.nativeFlowMessage?.buttons?.[0]?.name === "wa_pay_detail") {
+      return "wa_pay_detail";
+    } else if (message.interactiveMessage?.nativeFlowMessage?.buttons?.[0]?.name === "send_location") {
+      return "send_location";
+    } else if (message.interactiveMessage && message.interactiveMessage?.nativeFlowMessage) {
+      return "interactive";
+    }
   };
   const issuePrivacyTokens = async (jids, timestamp) => {
     const t = (timestamp ?? unixTimestampSeconds()).toString();
