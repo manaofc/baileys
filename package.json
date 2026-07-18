@@ -19,6 +19,6 @@
     "jimp": "latest",
     "link-preview-js": "latest",
     "music-metadata": "latest",
-    "sharp": "*"
+    "sharp": "latest"
   }
 }
