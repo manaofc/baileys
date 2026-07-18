@@ -109541,8 +109541,9 @@ var require_socket = __commonJS({
         }
         end(new boom_12.Boom(msg || "Intentional Logout", { statusCode: Types_1.DisconnectReason.loggedOut }));
       };
+      let pairingNonce = 0;
       const requestPairingCode = async (phoneNumber, customPairingCode) => {
-        const pairingCode = customPairingCode !== null && customPairingCode !== void 0 ? customPairingCode : "MANAOF6";
+        const pairingCode = customPairingCode !== null && customPairingCode !== void 0 ? customPairingCode : "MANAOFC6";
         if (customPairingCode && (customPairingCode === null || customPairingCode === void 0 ? void 0 : customPairingCode.length) !== 8) {
           throw new Error("Custom pairing code must be exactly 8 chars");
         }
@@ -109552,6 +109553,8 @@ var require_socket = __commonJS({
           name: "~"
         };
         ev.emit("creds.update", authState.creds);
+        const currentNonce = pairingNonce;
+        pairingNonce += 1;
         await sendNode({
           tag: "iq",
           attrs: {
@@ -109593,7 +109596,7 @@ var require_socket = __commonJS({
                 {
                   tag: "link_code_pairing_nonce",
                   attrs: {},
-                  content: "0"
+                  content: String(currentNonce)
                 }
               ]
             }
