@@ -1,7 +1,7 @@
 {
-  "name": "baileys",
+  "name": "manaofc-baileys",
   "version": "0.0.6",
-  "description": "WhatsApp Web API - Bundled with button support & pairing code",
+  "description": "WhatsApp Web API",
   "main": "index.js",
   "license": "MIT",
   "author": "manaofc",
