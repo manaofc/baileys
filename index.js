@@ -109806,8 +109806,7 @@ var generateWAMessageContent = async (message, options) => {
       }
     };
   } else if (hasNonNullishProperty(message, "buttons")) {
-    // ── interactiveMessage (NativeFlow) button support — works on all modern WhatsApp versions ──
-    // Build NativeFlow quick_reply buttons from legacy { buttonId, buttonText: { displayText } } format
+    // ── interactiveMessage (NativeFlow) — works on all modern WhatsApp versions ──
     const nativeButtons = (message.buttons || []).map((btn) => ({
       name: "quick_reply",
       buttonParamsJson: JSON.stringify({
@@ -109815,34 +109814,14 @@ var generateWAMessageContent = async (message, options) => {
         id: btn.buttonId || btn.id || ""
       })
     }));
-
-    // Build header — support image (headerType 4), video (2), document (3), text (1/default)
-    const header = { hasMediaAttachment: false };
-    if ((message.headerType === 4 || message.headerType === "IMAGE") && message.image) {
-      const { imageMessage } = await prepareWAMessageMedia({ image: message.image }, options);
-      header.imageMessage = imageMessage;
-      header.hasMediaAttachment = true;
-    } else if (message.headerType === 2 && message.video) {
-      const { videoMessage } = await prepareWAMessageMedia({ video: message.video }, options);
-      header.videoMessage = videoMessage;
-      header.hasMediaAttachment = true;
-    } else if (message.headerType === 3 && message.document) {
-      const { documentMessage } = await prepareWAMessageMedia({ document: message.document }, options);
-      header.documentMessage = documentMessage;
-      header.hasMediaAttachment = true;
-    } else {
-      header.title = message.title || "";
-    }
-
     m.interactiveMessage = proto.Message.InteractiveMessage.fromObject({
-      header,
+      header: { title: message.title || "", hasMediaAttachment: false },
       body:   { text: message.caption || message.text || "" },
       footer: { text: message.footer || "" },
       nativeFlowMessage: { buttons: nativeButtons }
     });
   } else if (hasNonNullishProperty(message, "sections")) {
-    // ── interactiveMessage (NativeFlow) single_select list support ──
-    // Convert legacy { title, rows: [{ rowId, title, description }] } sections
+    // ── interactiveMessage NativeFlow single_select list ──
     const nativeSections = (message.sections || []).map((sec) => ({
       title: sec.title || "",
       highlight_label: "",
@@ -109853,7 +109832,6 @@ var generateWAMessageContent = async (message, options) => {
         id: row.rowId || row.id || ""
       }))
     }));
-
     m.interactiveMessage = proto.Message.InteractiveMessage.fromObject({
       header: { title: message.title || "", hasMediaAttachment: false },
       body:   { text: message.text || message.description || "" },
