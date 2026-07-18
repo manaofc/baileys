@@ -1,24 +1,24 @@
 {
-    "name": "baileys",
-    "version": "1.0.0",
-    "description": "A lightweight, full-featured WhatsApp Web API library for Node.js",
-    "main": "index.js",
-    "types": "index.d.ts",
-    "homepage": "",
-    "author": "manaofc",
-    "license": "MIT",
-    "keywords": [],
-    "dependencies": {
-        "@cacheable/node-cache": "latest",
-        "@hapi/boom": "latest",
-        "async-mutex": "latest",
-        "axios": "latest",
-        "libsignal": "latest",
-        "lodash": "latest",
-        "music-metadata": "latest",
-        "node-fetch": "latest",
-        "pino": "latest",
-        "protobufjs": "latest",
-        "ws": "latest"
-    }
+  "name": "baileys",
+  "version": "7.0.0-rc13",
+  "description": "A WebSockets library for interacting with WhatsApp Web",
+  "main": "index.js",
+  "license": "MIT",
+  "author": "Rajeh Taher",
+  "dependencies": {
+    "@cacheable/node-cache": "^3.0.1",
+    "@hapi/boom": "^10.0.1",
+    "@whiskeysockets/baileys": "*",
+    "async-mutex": "^0.5.0",
+    "axios": "^1.18.1",
+    "jimp": "^1.6.1",
+    "link-preview-js": "^3.2.0",
+    "lodash": "^4.18.1",
+    "music-metadata": "^11.14.0",
+    "pino": "^9.14.0",
+    "protobufjs": "^7.6.5",
+    "qrcode-terminal": "^0.12.0",
+    "sharp": "^0.35.3",
+    "ws": "^8.21.1"
+  }
 }
