@@ -13,7 +13,7 @@
         "@hapi/boom": "latest",
         "async-mutex": "latest",
         "axios": "latest",
-        "libsignal": "github:WhiskeySockets/libsignal-node",
+        "libsignal": "latest",
         "lodash": "latest",
         "music-metadata": "latest",
         "node-fetch": "latest",
