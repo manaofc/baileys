@@ -109806,46 +109806,48 @@ var generateWAMessageContent = async (message, options) => {
       }
     };
   } else if (hasNonNullishProperty(message, "buttons")) {
-    // ── interactiveMessage (NativeFlow) — works on all modern WhatsApp versions ──
-    const nativeButtons = (message.buttons || []).map((btn) => ({
-      name: "quick_reply",
-      buttonParamsJson: JSON.stringify({
-        display_text: btn.buttonText?.displayText || btn.displayText || "",
-        id: btn.buttonId || btn.id || ""
-      })
-    }));
-    m.interactiveMessage = proto.Message.InteractiveMessage.fromObject({
-      header: { title: message.title || "", hasMediaAttachment: false },
-      body:   { text: message.caption || message.text || "" },
-      footer: { text: message.footer || "" },
-      nativeFlowMessage: { buttons: nativeButtons }
-    });
-  } else if (hasNonNullishProperty(message, "sections")) {
-    // ── interactiveMessage NativeFlow single_select list ──
-    const nativeSections = (message.sections || []).map((sec) => ({
-      title: sec.title || "",
-      highlight_label: "",
-      rows: (sec.rows || []).map((row) => ({
-        header: "",
-        title: row.title || "",
-        description: row.description || "",
-        id: row.rowId || row.id || ""
+    // ── buttonsMessage with optional image header ──
+    const btnData = {
+      contentText: message.caption || message.text || "",
+      footerText: message.footer || "",
+      headerType: 1,
+      buttons: (message.buttons || []).map((btn) => ({
+        buttonId: btn.buttonId || btn.id || "",
+        buttonText: { displayText: btn.buttonText?.displayText || btn.displayText || "" },
+        type: 1
       }))
-    }));
-    m.interactiveMessage = proto.Message.InteractiveMessage.fromObject({
-      header: { title: message.title || "", hasMediaAttachment: false },
-      body:   { text: message.text || message.description || "" },
-      footer: { text: message.footer || "" },
-      nativeFlowMessage: {
-        buttons: [{
-          name: "single_select",
-          buttonParamsJson: JSON.stringify({
-            title: message.buttonText || "Select Option",
-            sections: nativeSections
-          })
-        }]
-      }
-    });
+    };
+    if (message.image) {
+      try {
+        const imgSrc = typeof message.image === "string"
+          ? { image: { url: message.image } }
+          : { image: message.image };
+        const imgMedia = await prepareWAMessageMedia(imgSrc, options);
+        if (imgMedia.imageMessage) {
+          btnData.imageMessage = imgMedia.imageMessage;
+          btnData.headerType = 4;
+        }
+      } catch (_) {}
+    }
+    m.buttonsMessage = proto.Message.ButtonsMessage.fromObject(btnData);
+  } else if (hasNonNullishProperty(message, "sections")) {
+    // ── listMessage with optional image header ──
+    const listData = {
+      title: message.title || "",
+      description: message.text || message.description || "",
+      buttonText: message.buttonText || "Select Option",
+      listType: 1,
+      footerText: message.footer || "",
+      sections: (message.sections || []).map((sec) => ({
+        title: sec.title || "",
+        rows: (sec.rows || []).map((row) => ({
+          rowId: row.rowId || row.id || "",
+          title: row.title || "",
+          description: row.description || ""
+        }))
+      }))
+    };
+    m.listMessage = proto.Message.ListMessage.fromObject(listData);
   } else {
     m = await prepareWAMessageMedia(message, options);
   }
