@@ -116,4 +116,4 @@ Bot connect කිරීමට:
 
 ## License
 
-MIT © Rajeh Taher / WhiskeySockets
+MIT © manafc / WhiskeySockets
