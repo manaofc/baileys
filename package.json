@@ -6,19 +6,19 @@
   "license": "MIT",
   "author": "manaofc",
   "dependencies": {
-    "@hapi/boom": "^10.0.1",
-    "@cacheable/node-cache": "^1.0.0",
-    "async-mutex": "^0.5.0",
-    "axios": "^1.7.2",
-    "lodash": "^4.17.21",
-    "pino": "^9.3.1",
-    "protobufjs": "^7.4.0",
-    "ws": "^8.18.0"
+    "@hapi/boom": "latest",
+    "@cacheable/node-cache": "latest",
+    "async-mutex": "latest",
+    "axios": "latest",
+    "lodash": "latest",
+    "pino": "latest",
+    "protobufjs": "latest",
+    "ws": "latest"
   },
   "optionalDependencies": {
-    "jimp": "^1.6.1",
-    "link-preview-js": "^3.0.0",
-    "music-metadata": "^10.0.0",
+    "jimp": "latest",
+    "link-preview-js": "latest",
+    "music-metadata": "latest",
     "sharp": "*"
   }
 }
