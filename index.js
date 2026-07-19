@@ -109980,6 +109980,28 @@ var normalizeMessageContent = (content) => {
   if (!content) {
     return void 0;
   }
+  // Normalize native button click responses → conversation so bots can process buttonId as a command
+  if (content.buttonsResponseMessage) {
+    const selectedId = content.buttonsResponseMessage.selectedButtonId || "";
+    return { conversation: selectedId };
+  }
+  // Normalize list selection responses → conversation so bots can process rowId as a command
+  if (content.listResponseMessage) {
+    const selectedRowId = content.listResponseMessage.singleSelectReply?.selectedRowId || "";
+    return { conversation: selectedRowId };
+  }
+  // Normalize interactive/nativeFlow button responses → conversation
+  if (content.interactiveResponseMessage?.nativeFlowResponseMessage) {
+    const nativeFlow = content.interactiveResponseMessage.nativeFlowResponseMessage;
+    let cmdId = "";
+    try {
+      const params = JSON.parse(nativeFlow.paramsJson || "{}");
+      cmdId = params.id || params.display_text || nativeFlow.name || "";
+    } catch (_) {
+      cmdId = nativeFlow.name || "";
+    }
+    return { conversation: cmdId };
+  }
   for (let i = 0; i < 5; i++) {
     const inner = getFutureProofMessage(content);
     if (!inner) {
