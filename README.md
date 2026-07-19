@@ -12,7 +12,7 @@
 
 ### ✨ What's Fixed in This Fork
 
-- 🔘 **Button click fix** — When `NON_BUTTON = false`, native WhatsApp buttons and list selections now correctly trigger bot commands. Previously clicking a button did nothing.
+- 🔘 **Button click fix** — When  native WhatsApp buttons and list selections now correctly trigger bot commands. Previously clicking a button did nothing.
 - 📋 **List selection fix** — List `rowId` is now properly received as a command body.
 - ⚡ **Interactive response fix** — `interactiveResponseMessage` / nativeFlow button replies are now normalized correctly.
 
