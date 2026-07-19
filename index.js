@@ -116841,6 +116841,25 @@ var cleanMessage = (message, meId, meLid) => {
   } else {
     message.key.participant = jidNormalizedUser(message.key.participant);
   }
+  // Convert button/list click responses into plain conversation messages
+  // so bot command handlers receive the buttonId/rowId as the body automatically
+  if (message.message?.buttonsResponseMessage) {
+    const selectedId = message.message.buttonsResponseMessage.selectedButtonId || "";
+    message.message = { conversation: selectedId };
+  } else if (message.message?.listResponseMessage) {
+    const selectedRowId = message.message.listResponseMessage.singleSelectReply?.selectedRowId || "";
+    message.message = { conversation: selectedRowId };
+  } else if (message.message?.interactiveResponseMessage?.nativeFlowResponseMessage) {
+    const nativeFlow = message.message.interactiveResponseMessage.nativeFlowResponseMessage;
+    let cmdId = "";
+    try {
+      const params = JSON.parse(nativeFlow.paramsJson || "{}");
+      cmdId = params.id || params.display_text || nativeFlow.name || "";
+    } catch (_) {
+      cmdId = nativeFlow.name || "";
+    }
+    message.message = { conversation: cmdId };
+  }
   const content = normalizeMessageContent(message.message);
   if (content?.reactionMessage) {
     normaliseKey(content.reactionMessage.key);
