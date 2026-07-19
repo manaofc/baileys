@@ -217,7 +217,7 @@ sock.sendMessage(jid, {
 
 ### 👉 Sending Interactive Messages
 
-#### 🔘 Buttons (NON_BUTTON = false)
+#### 🔘 Buttons
 
 ```javascript
 // Text + buttons
@@ -239,7 +239,7 @@ sock.sendMessage(jid, {
 sock.sendMessage(jid, {
    image: { url: 'https://example.com/image.jpg' },
    caption: '👆 Choose an option:',
-   footer: 'manaofc-baileys',
+   footer: 'manaofc',
    headerType: 4,
    buttons: [{
       buttonId: '.help',
@@ -251,14 +251,14 @@ sock.sendMessage(jid, {
 
 > ✅ **With this fix**, when a user taps a button with `buttonId: '.ping'`, the bot receives it as `body = ".ping"` and runs the `.ping` command automatically.
 
-#### 📋 List (NON_BUTTON = false)
+#### 📋 List
 
 > Only works in private chat (`@s.whatsapp.net`).
 
 ```javascript
 sock.sendMessage(jid, {
    text: '📋 Select an option:',
-   footer: 'manaofc-baileys',
+   footer: 'manaofc',
    buttonText: '📋 Open Menu',
    title: '🤖 Bot Menu',
    sections: [{
