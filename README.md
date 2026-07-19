@@ -39,7 +39,7 @@ Or add as a local dependency in your bot's `package.json`:
 
 ```json
 "dependencies": {
-   "manaofc-baileys": "file:./manaofc-baileys"
+   "manaofc-baileys": "github:manaofc/manaofc-baileys"
 }
 ```
 
