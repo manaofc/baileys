@@ -413,21 +413,3 @@ sock.ev.on('presence.update', (update) => {})
 ```
 
 ---
-
-### 📦 Fork Base
-
-Based on [WhiskeySockets/Baileys](https://github.com/WhiskeySockets/Baileys) with additional fixes from [@itsliaaa/baileys](https://github.com/itsliaaa/baileys).
-
-**Key fix in this fork:** `normalizeMessageContent` in `index.js` — normalizes `buttonsResponseMessage`, `listResponseMessage`, and `interactiveResponseMessage` into `conversation` type so bot command handlers process button/list clicks automatically.
-
----
-
-### 📣 Credits
-
-- [WhiskeySockets/Baileys](https://github.com/WhiskeySockets/Baileys) — Original Baileys library
-- [@itsliaaa/baileys](https://github.com/itsliaaa/baileys) — Enhanced fork base
-- **manaofc** — Button/list response fix for manaofc bot framework
-
----
-
-**License:** MIT
