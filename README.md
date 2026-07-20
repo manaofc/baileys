@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&height=220&color=0:ff6b6b,40:f06595,100:845ef7&text=@mr-supun-fernando/supunmd-bail&fontAlignY=40&fontSize=44&fontColor=ffffff&desc=Stable%20WhatsApp%20Web%20API%20Fork%20for%20Production%20Bots&descAlignY=60&descSize=16" alt="Header Banner" />
+<img src="https://files.catbox.moe/10v1uj.png" alt="Header Banner" />
 </div>
 
 ---
@@ -92,7 +92,7 @@ const { default: makeWASocket } = require('manaofc-baileys')
 
 2. **Send a Basic Message**:
    ```javascript
-   const jid = 'recipient@s.whatsapp.net';
+   const jid = 'xxx@s.whatsapp.net';
    await sock.sendMessage(jid, { text: 'Hello from manaofc!' });
    ```
 
@@ -102,6 +102,7 @@ const { default: makeWASocket } = require('manaofc-baileys')
 |---|---|
 |channels | Seamlessly send messages to WhatsApp Channels. |
 | 🖱️ Buttons | Create interactive messages with button options and quick replies. |
+| 📌 list | Create interactive messages with list options and quick replies. |
 | 🖼️ Albums | Send grouped images or videos as an album (carousel-like format). |
 | 👤 LID Grouping | Handle group operations using the latest @lid addressing style. |
 | 🤖 AI Message Style | Add a stylized “AI” icon to messages. |
@@ -144,7 +145,7 @@ await sock.newsletterReactMessage(
 
 ---
 
-### 📌 Interactive Messaging
+### 🖱️ Interactive Messaging
 Send interactive messages using buttons to increase user engagement.
 
 ```js
@@ -160,7 +161,28 @@ await sock.sendMessage(id, {
   headerType: 1
 });
 ```
+### 📌 Interactive Messaging
+Send interactive messages using list to increase user engagement. 
 
+```js
+const list = [
+            {
+                title: "hi",
+                rows: [
+                    { title: "list1", rowId: prefix + "set prefix ." },
+                    { title: "list 2", rowId: prefix + "set prefix !" },
+                ],
+            },
+         ];
+
+await sock.sendMessage(id, {
+  text: "Choose one:",
+  footer: "Powered by manaofc",
+  buttonText: "manaofc",
+  list,
+});
+
+```
 ---
 
 ### 🖼️ Send Album
@@ -196,13 +218,13 @@ await sock.sendMessage(jid, {
     eventMessage: { 
         isCanceled: false, 
         name: "Technology Meetup 2026", 
-        description: "Join us for AI innovations!", 
+        description: "join whatsapp", 
         location: { 
             degreesLatitude: 0, 
             degreesLongitude: 0, 
             name: "manaofc" 
         }, 
-        joinLink: "https://call.whatsapp.com/video/event123", 
+        joinLink: "https://call.whatsapp.com/xxxxxxx", 
         startTime: "1763019000", 
         endTime: "1763026200", 
         extraGuestsAllowed: false 
@@ -260,15 +282,15 @@ Full native flows with lists, sheets, and offers.
 ```javascript
 await sock.sendMessage(jid, {    
     interactiveMessage: {      
-        header: "Dynamic Menu",
-        title: "Explore Options",      
+        header: "Menu",
+        title: "manaofc",      
         footer: "Powered by manaofc",      
         image: { url: "https://example.com/image.jpg" },      
         nativeFlowMessage: {        
             messageParamsJson: JSON.stringify({          
                 limited_time_offer: {            
                     text: "Exclusive deal ends soon!",            
-                    url: "https://whatsapp.com/channel/0029Vb55cv41nozBTTIw1y07",            
+                    url: "https://whatsapp.com/channel/xxxxxxxxxxxxx",            
                     copy_code: "DEAL2026",            
                     expiration_time: Date.now() * 86400000          
                 },          
@@ -281,8 +303,8 @@ await sock.sendMessage(jid, {
                 tap_target_configuration: {            
                     title: "Learn More",            
                     description: "Advanced automation tips",            
-                    canonical_url: "https://www.npmjs.com/package/mr-supun-fernando",            
-                    domain: "supunmd.vercel.com",            
+                    canonical_url: "https://example.com",            
+                    domain: "https://example.com",            
                     button_index: 0          
                 }        
             }),        
@@ -339,7 +361,7 @@ Rich previews for products/services.
 ```javascript
 await sock.sendMessage(jid, {
   interactiveMessage: {
-    header: { title: 'Featured Item' },
+    header: { title: 'manaofc' },
     title: 'manaofc',
     footer: 'Powered by manaofc',
     image: { url: 'https://example.com/product-thumb.jpg' },
@@ -363,13 +385,13 @@ E-commerce ready catalogs.
 ```javascript
 await sock.sendMessage(jid, {
     productMessage: {
-        title: "Produk Contoh",
-        description: "Ini adalah deskripsi produk",
+        title: "manaofc",
+        description: "welcome",
         thumbnail: { url: "https://example.com/image.jpg" },
         productId: "PROD001",
         retailerId: "RETAIL001",
         url: "https://example.com/product",
-        body: "Detail produk",
+        body: "manaofc",
         footer: "Powered by manaofc",
         priceAmount1000: 50000,
         currencyCode: "USD",
@@ -406,11 +428,11 @@ await sock.sendMessage(jid, {
         },
         externalAdReply: {
             title: "Wabot",
-            body: "Z team",
+            body: "manaofc",
             mediaType: 3,
             thumbnailUrl: "https://example.com/image.jpg",
-            mediaUrl: " X ",
-            sourceUrl: "https://t.me/pantatBegetar",
+            mediaUrl: "https://example.com",
+            sourceUrl: "https://example.com",
             showAdAttribution: true,
             renderLargerThumbnail: false         
         },
@@ -419,8 +441,8 @@ await sock.sendMessage(jid, {
                 name: "cta_url",
                 buttonParamsJson: JSON.stringify({
                     display_text: "Telegram",
-                    url: "https://xxxxxx",
-                    merchant_url: "https://xxxxxxxx"
+                    url: "https://example.com",
+                    merchant_url: "https://example.com"
                 })
             }
         ]
@@ -447,8 +469,8 @@ await sock.sendMessage(jid, {
                 name: "cta_url",
                 buttonParamsJson: JSON.stringify({
                     display_text: "Telegram",
-                    url: "https://xxxxxx",
-                    merchant_url: "https://xxxxxx"
+                    url: "https://example.com",
+                    merchant_url: "https://example.com"
                 })
             }
         ]
