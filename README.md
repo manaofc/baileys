@@ -11,7 +11,7 @@
 
 ---
 
-**supunmd-bail** is an open-source library designed to help developers build automation solutions and integrations with WhatsApp efficiently and directly. Using websocket technology without the need for a browser, this library supports a wide range of features such as message management, chat handling, group administration, as well as interactive messages and action buttons for a more dynamic user experience.
+**manaofc-baileys** is an open-source library designed to help developers build automation solutions and integrations with WhatsApp efficiently and directly. Using websocket technology without the need for a browser, this library supports a wide range of features such as message management, chat handling, group administration, as well as interactive messages and action buttons for a more dynamic user experience.
 
 Actively developed and maintained, baileys continuously receives updates to enhance stability and performance. One of the main focuses is to improve the pairing and authentication processes to be more stable and secure. Pairing features can be customized with your own codes, making the process more reliable and less prone to interruptions.
 
@@ -32,24 +32,14 @@ This library is highly suitable for building business bots, chat automation syst
 
 ---
 
-## 📦 Installation
 
-### NPM
-```bash
-npm install supunmd-bail
-```
-
-### Yarn
-```bash
-yarn add supunmd-bail
-```
 
 ### Using Different Package Name
 Add to your `package.json`:
 ```json
 {
   "dependencies": {
-    "@whiskeysockets/baileys": "npm:supunmd-bail"
+    "manaofc-baileys": "github:manaofc/manaofc-baileys"
   }
 }
 ```
@@ -57,10 +47,10 @@ Add to your `package.json`:
 ### Import
 ```javascript
 // ESM
-import makeWASocket from 'supunmd-bail'
+import makeWASocket from 'manaofc-baileys'
 
 // CommonJS
-const { default: makeWASocket } = require('supunmd-bail')
+const { default: makeWASocket } = require('manaofc-baileys')
 ```
 
 ---
@@ -76,13 +66,13 @@ const { default: makeWASocket } = require('supunmd-bail')
 
 ```javascript
 
-  import makeWASocket, { DisconnectReason, useMultiFileAuthState } from '@mr-supun-fernando/supunmd-bail'
+  import makeWASocket, { DisconnectReason, useMultiFileAuthState } from 'manaofc-baileys'
 
    const startSock = async () => {
-     const { state, saveCreds } = await useMultiFileAuthState('auth_info_baileys');
+     const { state, saveCreds } = await useMultiFileAuthState('manaofc_baileys');
      const sock = makeWASocket({
        auth: state,
-       browser: ['SupunMd', 'Chrome', '1.0.0'],
+       browser: ['manaofc', 'Chrome', '1.0.0'],
        printQRInTerminal: true, // Set to false for custom QR handling
        syncFullHistory: false, // Optimize for production
      });
@@ -109,7 +99,7 @@ const { default: makeWASocket } = require('supunmd-bail')
 2. **Send a Basic Message**:
    ```javascript
    const jid = 'recipient@s.whatsapp.net';
-   await sock.sendMessage(jid, { text: 'Hello from SupunMd!' });
+   await sock.sendMessage(jid, { text: 'Hello from manaofc!' });
    ```
 
 ---
@@ -156,12 +146,7 @@ await sock.newsletterReactMessage(
 
 ---
 
-### Custom Pairing Code
-```javascript
-const phoneNumber = "947XXXXX"
-const code = await sock.requestPairingCode(phoneNumber.trim(), "ABCDE01")
-console.log("Your pairing code: " + code)
-```
+
 
 ---
 
@@ -176,7 +161,7 @@ const buttons = [
 
 await sock.sendMessage(id, {
   text: "Choose one:",
-  footer: "Mova - Nest | Lk",
+  footer: "Powered by manaofc",
   buttons,
   headerType: 1
 });
@@ -203,7 +188,7 @@ await sock.sendMessage(jid, {
 Pair a WhatsApp device using a custom code.
 
 ```js
-const code = await sock.requestPairingCode("94XXXXXXXX","ABCDE123");
+const code = await sock.requestPairingCode("9475XXXXXXXX","MANAOFC6");
 console.log("Pairing Code:", code);
 ```
 
@@ -221,7 +206,7 @@ await sock.sendMessage(jid, {
         location: { 
             degreesLatitude: 0, 
             degreesLongitude: 0, 
-            name: "SUPUN MD" 
+            name: "manaofc" 
         }, 
         joinLink: "https://call.whatsapp.com/video/event123", 
         startTime: "1763019000", 
@@ -260,7 +245,7 @@ await sock.sendMessage(jid, {
     interactiveMessage: {
         header: 'Quick Action',
         title: 'Copy this code',
-        footer: 'Powered by @SupunFernando',
+        footer: 'Powered by manaofc',
         buttons: [
             {
                 name: "cta_copy",
@@ -283,7 +268,7 @@ await sock.sendMessage(jid, {
     interactiveMessage: {      
         header: "Dynamic Menu",
         title: "Explore Options",      
-        footer: "Contact @SupunFernando for support",      
+        footer: "Powered by manaofc",      
         image: { url: "https://example.com/image.jpg" },      
         nativeFlowMessage: {        
             messageParamsJson: JSON.stringify({          
@@ -330,7 +315,7 @@ await sock.sendMessage(jid, {
                                 highlight_label: "label",                  
                                 rows: [                    
                                     {                      
-                                        title: "@SupunFernando",                      
+                                        title: "manaofc",                      
                                         description: "love you",                      
                                         id: "row_2"                    
                                     }                  
@@ -361,8 +346,8 @@ Rich previews for products/services.
 await sock.sendMessage(jid, {
   interactiveMessage: {
     header: { title: 'Featured Item' },
-    title: 'Supun Md',
-    footer: 'Upgrade today',
+    title: 'manaofc',
+    footer: 'Powered by manaofc',
     image: { url: 'https://example.com/product-thumb.jpg' },
     buttons: [
       {
@@ -391,7 +376,7 @@ await sock.sendMessage(jid, {
         retailerId: "RETAIL001",
         url: "https://example.com/product",
         body: "Detail produk",
-        footer: "Harga spesial",
+        footer: "Powered by manaofc",
         priceAmount1000: 50000,
         currencyCode: "USD",
         buttons: [
@@ -415,7 +400,7 @@ await sock.sendMessage(jid, {
     interactiveMessage: {
         header: "Hello World",
         title: "Hello World",
-        footer: "Powered by @SupunFernando",
+        footer: "Powered by manaofc",
         document: fs.readFileSync("./package.json"),
         mimetype: "application/pdf",
         fileName: "pantatBegetar.pdf",
@@ -440,8 +425,8 @@ await sock.sendMessage(jid, {
                 name: "cta_url",
                 buttonParamsJson: JSON.stringify({
                     display_text: "Telegram",
-                    url: "https://t.me/pantatBegetar",
-                    merchant_url: "https://t.me/pantatBegetar"
+                    url: "https://xxxxxx",
+                    merchant_url: "https://xxxxxxxx"
                 })
             }
         ]
@@ -458,7 +443,7 @@ await sock.sendMessage(jid, {
     interactiveMessage: {
         header: "Hello World",
         title: "Hello World",
-        footer: "Powered by @SupunFernando",
+        footer: "Powered by manaofc",
         document: fs.readFileSync("./package.json"),
         mimetype: "application/pdf",
         fileName: "pantatBegetar.pdf",
@@ -468,8 +453,8 @@ await sock.sendMessage(jid, {
                 name: "cta_url",
                 buttonParamsJson: JSON.stringify({
                     display_text: "Telegram",
-                    url: "https://t.me/pantatBegetar",
-                    merchant_url: "https://t.me/pantatBegetar"
+                    url: "https://xxxxxx",
+                    merchant_url: "https://xxxxxx"
                 })
             }
         ]
@@ -525,11 +510,5 @@ Because this library offers high stability, full features, and an actively impro
 - Perfect for developing bots, customer service automation, and other communication applications
 
 ---
-
-## 📞 Support
-
-- **Issues**: [Whatsapp Channel](https://whatsapp.com/channel/0029Vb55cv41nozBTTIw1y07)
-- **Discussions**: [Whatsapp Channel](https://whatsapp.com/channel/0029Vb55cv41nozBTTIw1y07)
-- **NPM**: [@mr-supun-fernando/baileyz](https://www.npmjs.com/package/mr-supun-fernando/supunmd-bail)
 
 **Built with ❤️ for the WhatsApp dev community. Let's automate the future!** 🚀
