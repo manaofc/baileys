@@ -165,21 +165,22 @@ await sock.sendMessage(id, {
 Send interactive messages using list to increase user engagement. 
 
 ```js
-const list = [
-{
-title: "hi",
-rows: [
-{ title: "list 1", rowId: "list value" },
-{ title: "list 2", rowId: "list vlue" },
-],
-},
+const sections = [
+  {
+    title: "Section Title",
+    rows: [
+      { title: "list 1", rowId: "list_1", description: "Description 1" },
+      { title: "list 2", rowId: "list_2", description: "Description 2" },
+    ],
+  },
 ];
 
 await sock.sendMessage(id, {
   text: "Choose one:",
   footer: "Powered by manaofc",
+  title: "Menu Title",
   buttonText: "manaofc",
-  list,
+  sections,
 });
 
 ```
