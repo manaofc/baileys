@@ -109624,7 +109624,7 @@ function hasOptionalProperty(obj, key) {
 }
 var generateWAMessageContent = async (message, options) => {
   let m = {};
-  if (hasNonNullishProperty(message, "text")) {
+  if (hasNonNullishProperty(message, "text") && !hasNonNullishProperty(message, "sections") && !hasNonNullishProperty(message, "buttons")) {
     const extContent = { text: message.text };
     let urlInfo = message.linkPreview;
     if (typeof urlInfo === "undefined") {
