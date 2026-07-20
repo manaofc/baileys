@@ -145,7 +145,7 @@ await sock.newsletterReactMessage(
 
 ---
 
-### 🖱️ Interactive Messaging
+### 🖱️ buttons Messaging
 Send interactive messages using buttons to increase user engagement.
 
 ```js
@@ -161,7 +161,7 @@ await sock.sendMessage(id, {
   headerType: 1
 });
 ```
-### 📌 Interactive Messaging
+### 📌 list Messaging
 Send interactive messages using list to increase user engagement. 
 
 ```js
