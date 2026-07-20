@@ -166,14 +166,14 @@ Send interactive messages using list to increase user engagement.
 
 ```js
 const list = [
-            {
-                title: "hi",
-                rows: [
-                    { title: "list1", rowId: prefix + "set prefix ." },
-                    { title: "list 2", rowId: prefix + "set prefix !" },
-                ],
-            },
-         ];
+{
+title: "hi",
+rows: [
+{ title: "list 1", rowId: "list value" },
+{ title: "list 2", rowId: "list vlue" },
+],
+},
+];
 
 await sock.sendMessage(id, {
   text: "Choose one:",
