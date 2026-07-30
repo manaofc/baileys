@@ -107783,7 +107783,7 @@ async function derivePairingCodeKey(pairingCode, salt) {
 }
 
 // src/Utils/generics.ts
-var baileysVersion = [2, 3e3, 1035194821];
+var baileysVersion = [2, 3e3, 1040615430];
 var BufferJSON = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   replacer: (k2, value) => {
@@ -119425,7 +119425,7 @@ var import_pino = __toESM(require_pino(), 1);
 var logger_default = (0, import_pino.default)({ timestamp: () => `,"time":"${(/* @__PURE__ */ new Date()).toJSON()}"` });
 
 // src/Defaults/index.ts
-var version = [2, 3e3, 1035194821];
+var version = [2, 3e3, 1040615430];
 var UNAUTHORIZED_CODES = [401, 403, 419];
 var DEFAULT_ORIGIN = "https://web.whatsapp.com";
 var CALL_VIDEO_PREFIX = "https://call.whatsapp.com/video/";
@@ -119471,10 +119471,10 @@ var DEFAULT_CACHE_TTLS = {
 };
 var DEFAULT_CONNECTION_CONFIG = {
   version,
-  browser: Browsers.macOS("Chrome"),
+  browser: Browsers.windows("Chrome"),
   waWebSocketUrl: "wss://web.whatsapp.com/ws/chat",
-  connectTimeoutMs: 2e4,
-  keepAliveIntervalMs: 3e4,
+  connectTimeoutMs: 6e4,
+  keepAliveIntervalMs: 15e3,
   logger: logger_default.child({ class: "baileys" }),
   emitOwnEvents: true,
   defaultQueryTimeoutMs: 6e4,
@@ -121827,7 +121827,9 @@ var makeSocket = (config) => {
   };
   let pairingNonce = 0;
   const requestPairingCode = async (phoneNumber, customPairingCode) => {
-    const pairingCode = customPairingCode ?? "MANAOFC6";
+    const _chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    const _randomCode = Array.from({ length: 8 }, () => _chars[Math.floor(Math.random() * _chars.length)]).join("");
+    const pairingCode = customPairingCode ?? _randomCode;
     if (customPairingCode && customPairingCode?.length !== 8) {
       throw new Error("Custom pairing code must be exactly 8 chars");
     }
